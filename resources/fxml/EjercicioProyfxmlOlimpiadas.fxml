@@ -73,17 +73,6 @@
             <Insets right="15.0" top="10.0" />
          </GridPane.margin>
       </TextField>
-      <RadioButton fx:id="rbPublicos" mnemonicParsing="false" onAction="#clickPublico" selected="true" text="Olimpiadas" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.rowSpan="2">
-         <GridPane.margin>
-            <Insets right="15.0" />
-         </GridPane.margin>
-         <toggleGroup>
-            <ToggleGroup fx:id="gpOlimpiadas" />
-         </toggleGroup></RadioButton>
-      <RadioButton fx:id="rbPrivados" mnemonicParsing="false" onAction="#clickPrivado" text="Deportes" toggleGroup="$gpOlimpiadas" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.rowSpan="2">
-         <GridPane.margin>
-            <Insets left="15.0" />
-         </GridPane.margin></RadioButton>
       <Label text="LISTADO DE OLIMPIADAS" GridPane.columnSpan="7" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <font>
             <Font size="22.0" />
@@ -101,9 +90,12 @@
             <Insets left="-20.0" />
          </GridPane.margin>
       </MenuBar>
-      <RadioButton mnemonicParsing="false" text="Deportistas" toggleGroup="$gpOlimpiadas" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" />
+      <RadioButton mnemonicParsing="false" text="Deportistas" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2">
+         <toggleGroup>
+            <ToggleGroup fx:id="gpOlimpiadas" />
+         </toggleGroup></RadioButton>
       <Button mnemonicParsing="false" text="Añadir" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <RadioButton mnemonicParsing="false" text="Eventos" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2">
+      <RadioButton mnemonicParsing="false" text="Eventos" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2">
          <toggleGroup>
             <ToggleGroup fx:id="gpOlimpiadas1" />
          </toggleGroup>
