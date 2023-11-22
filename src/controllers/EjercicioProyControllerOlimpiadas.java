@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import dao.DeportistaDao;
+import dao.EventoDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -33,7 +34,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Deportista;
 import model.Evento;
-import model.Producto;
 
 public class EjercicioProyControllerOlimpiadas implements Initializable{
     
@@ -63,6 +63,9 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 
     @FXML
     private TableColumn<Deportista, String> lsNombre;
+    
+    @FXML
+    private TableColumn<Evento, String> lsNombre1;
 
     @FXML
     private TableColumn<Evento, String> lsOlimpiada;
@@ -77,10 +80,16 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     private TableColumn<Evento, String> lsTemporada;
 
     @FXML
-    private TableView<?> tbOlimpiadas;
+    private TableView<Deportista> tbDeportistas;
+    
+    @FXML
+    private TableView<Evento> tbEventos;
 
     @FXML
     private TextField txtFiltro;
+    
+    @FXML
+    private TextField txtFiltro1;
     
     public RadioButton getRbDeportistas() {
 		return rbDeportistas;
@@ -91,6 +100,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 	}
 
 	private ObservableList<Deportista> o1;
+	private ObservableList<Evento> o2;
     
     private boolean modificar;
     
@@ -98,12 +108,15 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     
     private DeportistaDao aD;
     
-    public TableView<Deportista> gettbOlimpiadas() {
-		return tbOlimpiadas;
+    private EventoDao aE;
+    
+    public TableView<?> gettbDeportistas() {
+		return tbDeportistas;
 	}
 
 	// Crear un FilteredList respaldado por la lista de objetos
     private FilteredList<Deportista> filteredList;
+    private FilteredList<Evento> filteredList1;
     
     public boolean isModificar() {
 		return modificar;
@@ -114,7 +127,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 	}
 
  	public boolean crearAeropuerto(String nombre, String pais, String ciudad, String calle, int numero, int anio, int capacidad, boolean publico, int financiacion, int num_trab, int num_soc, InputStream imagen) {
- 		Deportista d = (Deportista) tbOlimpiadas.getSelectionModel().getSelectedItem();
+ 		Deportista d = (Deportista) tbDeportistas.getSelectionModel().getSelectedItem();
  		Deportista p = new Deportista(aD.ultimoIDAer(), nombre, pais, ciudad, calle, numero, anio, capacidad, null);
      	boolean esta=false;
  		if (o1 !=null) {
@@ -142,10 +155,10 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
  	
      public void modificarAeropuerto(String nombre, String pais, String ciudad, String calle, int numero, int anio, int capacidad, boolean publico, int financiacion, int num_trab, int num_soc) {
      	//Modificar objeto de la tabla
-     	Deportista p = new Deportista(tbOlimpiadas.getSelectionModel().getSelectedItem().getId(), nombre, pais, ciudad, calle, numero, anio, capacidad, null);
+     	Deportista p = new Deportista(tbDeportistas.getSelectionModel().getSelectedItem().getId(), nombre, pais, ciudad, calle, numero, anio, capacidad, null);
      	for (int i = 0; i < o1.size(); i++) {
- 			if (tbOlimpiadas.getSelectionModel().getSelectedItem()==o1.get(i)) {
- 				aD.modAeropuerto(tbOlimpiadas.getSelectionModel().getSelectedItem().getId(),nombre, pais, ciudad, calle, numero, anio, capacidad, publico, financiacion, num_trab, num_soc);
+ 			if (tbDeportistas.getSelectionModel().getSelectedItem()==o1.get(i)) {
+ 				aD.modAeropuerto(tbDeportistas.getSelectionModel().getSelectedItem().getId(),nombre, pais, ciudad, calle, numero, anio, capacidad, publico, financiacion, num_trab, num_soc);
  				if (publico) {
  					p.setFinanciacion(financiacion);
  		 			p.setNTrabajadores(num_trab);
@@ -175,8 +188,9 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     
 	@FXML
     void about(ActionEvent event) {
-		//Comprobar que hay seleccionado una persona en la tabla
-    	if (tbOlimpiadas.getSelectionModel().isEmpty()) {
+		
+		//Comprobar que hay seleccionado un objeto en la tabla
+    	if (tbDeportistas.getSelectionModel().isEmpty()) {
     		//Ventana error
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -191,17 +205,17 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 			String privacidad="Publico\n";
 			if (rbPrivados.isSelected()) {
 				privacidad="Privado\n";
-				nSocios="Numero de socios: "+tbOlimpiadas.getSelectionModel().getSelectedItem().getNSocios()+"\n";
+				nSocios="Numero de socios: "+tbDeportistas.getSelectionModel().getSelectedItem().getNSocios()+"\n";
 			}else {
-				financiacion="Financiacion: "+tbOlimpiadas.getSelectionModel().getSelectedItem().getFinanciacion()+"\n";
-				nTrabajadores="Numero de trabajadores: "+tbOlimpiadas.getSelectionModel().getSelectedItem().getNTrabajadores()+"\n";
+				financiacion="Financiacion: "+tbDeportistas.getSelectionModel().getSelectedItem().getFinanciacion()+"\n";
+				nTrabajadores="Numero de trabajadores: "+tbDeportistas.getSelectionModel().getSelectedItem().getNTrabajadores()+"\n";
 			}
-			String aviones = aD.listarAviones(tbOlimpiadas.getSelectionModel().getSelectedItem().getId());
-	    	String mensaje="Nombre: "+tbOlimpiadas.getSelectionModel().getSelectedItem().getNombre()+"\n"
-	    			+ "Pais: "+tbOlimpiadas.getSelectionModel().getSelectedItem().getPais()+"\n"
-	    			+ "Direccion: C. "+tbOlimpiadas.getSelectionModel().getSelectedItem().getCalle()+"\n"
-	    			+ "Año de inaguracion: "+tbOlimpiadas.getSelectionModel().getSelectedItem().getAno()+"\n"
-	    			+ "Capacidad: "+tbOlimpiadas.getSelectionModel().getSelectedItem().getCapacidad()+"\n"
+			String aviones = aD.listarAviones(tbDeportistas.getSelectionModel().getSelectedItem().getId());
+	    	String mensaje="Nombre: "+tbDeportistas.getSelectionModel().getSelectedItem().getNombre()+"\n"
+	    			+ "Pais: "+tbDeportistas.getSelectionModel().getSelectedItem().getPais()+"\n"
+	    			+ "Direccion: C. "+tbDeportistas.getSelectionModel().getSelectedItem().getCalle()+"\n"
+	    			+ "Año de inaguracion: "+tbDeportistas.getSelectionModel().getSelectedItem().getAno()+"\n"
+	    			+ "Capacidad: "+tbDeportistas.getSelectionModel().getSelectedItem().getCapacidad()+"\n"
 	    			+ "Aviones: \n"
 	    			+aviones
 	    			+privacidad
@@ -218,9 +232,9 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 		}
     }
 
-    @FXML
-    void añadir(ActionEvent event) {
-    	//Abrir ventana modal
+	@FXML
+    void aniadirDeporte(ActionEvent event) {
+		//Abrir ventana modal
 		FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioLfxmlAniadirAeropuerto.fxml"));
     	Stage stage = new Stage();
     	EjercicioLControllerAniadirAeropuertos ejLC = new EjercicioLControllerAniadirAeropuertos();
@@ -231,7 +245,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 	    	EjercicioLControllerAniadirAeropuertos ejLC2 = loader.getController();
 	    	ejLC2.setControlerL(this);
 	        stage.setScene(new Scene(root,500,700));
-	        stage.initOwner(this.tbOlimpiadas.getScene().getWindow());
+	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
 	        stage.setTitle("Añadir Aeropuerto");
 	        stage.initModality(Modality.APPLICATION_MODAL);
 	        stage.show();
@@ -242,9 +256,34 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     }
 
     @FXML
-    void borrar(ActionEvent event) {
+    void aniadirDeportista(ActionEvent event) {
+
+    }
+
+    @FXML
+    void aniadirEquipo(ActionEvent event) {
+
+    }
+
+    @FXML
+    void aniadirEvento(ActionEvent event) {
+
+    }
+
+    @FXML
+    void aniadirOlimpiada(ActionEvent event) {
+
+    }
+
+    @FXML
+    void aniadirParticipacion(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void eliminarDeporte(ActionEvent event) {
     	//Comprobar que hay seleccionado una persona en la tabla
-    	if (tbOlimpiadas.getSelectionModel().isEmpty()) {
+    	if (tbDeportistas.getSelectionModel().isEmpty()) {
     		//Ventana error
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -254,8 +293,8 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 		}else {
 			//Eliminar objeto de la tabla
 	    	for (int i = 0; i < o1.size(); i++) {
-				if (tbOlimpiadas.getSelectionModel().getSelectedItem()==o1.get(i)) {
-					aD.elimAeropuerto(tbOlimpiadas.getSelectionModel().getSelectedItem().getId());
+				if (tbDeportistas.getSelectionModel().getSelectedItem()==o1.get(i)) {
+					aD.elimAeropuerto(tbDeportistas.getSelectionModel().getSelectedItem().getId());
 					o1.remove(i);
 				}
 			}
@@ -270,25 +309,50 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     }
 
     @FXML
+    void eliminarDeportista(ActionEvent event) {
+
+    }
+
+    @FXML
+    void eliminarEquipo(ActionEvent event) {
+
+    }
+
+    @FXML
+    void eliminarEvento(ActionEvent event) {
+
+    }
+
+    @FXML
+    void eliminarOlimpiada(ActionEvent event) {
+
+    }
+
+    @FXML
+    void eliminarParticipacion(ActionEvent event) {
+
+    }
+
+    @FXML
     void clickDeportistas(ActionEvent event) {
-    	o1.setAll(aD.cargarAeropuertosPri());
-		lsNSocios.setVisible(true);
-		lsFinanciacion.setVisible(false);
-		lsNTrabajadores.setVisible(false);
+    	tbDeportistas.setVisible(true);
+    	tbEventos.setVisible(false);
+    	txtFiltro.setVisible(true);
+    	txtFiltro1.setVisible(false);
     }
 
     @FXML
     void clickEventos(ActionEvent event) {
-    	o1.setAll(aD.cargarAeropuertosPub());
-		lsNSocios.setVisible(false);
-		lsFinanciacion.setVisible(true);
-		lsNTrabajadores.setVisible(true);
+    	tbDeportistas.setVisible(false);
+    	tbEventos.setVisible(true);
+    	txtFiltro.setVisible(false);
+    	txtFiltro1.setVisible(true);
     }
-
+    
     @FXML
-    void editar(ActionEvent event) {
+    void editarDeporte(ActionEvent event) {
     	//Comprobar que hay seleccionado un objeto en la tabla
-    	if (tbOlimpiadas.getSelectionModel().isEmpty()) {
+    	if (tbDeportistas.getSelectionModel().isEmpty()) {
     		//Ventana error
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -307,7 +371,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 		    	ejLC2.setControlerL(this);
 		    	Parent root= loader.load();
 		        stage.setScene(new Scene(root,500,700));
-		        stage.initOwner(this.tbOlimpiadas.getScene().getWindow());
+		        stage.initOwner(this.tbDeportistas.getScene().getWindow());
 		        stage.setTitle("Editar Aeropuerto");
 		        stage.initModality(Modality.APPLICATION_MODAL);
 		        stage.showAndWait();
@@ -318,9 +382,34 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     }
 
     @FXML
+    void editarDeportista(ActionEvent event) {
+
+    }
+
+    @FXML
+    void editarEquipo(ActionEvent event) {
+
+    }
+
+    @FXML
+    void editarEvento(ActionEvent event) {
+
+    }
+
+    @FXML
+    void editarOlimpiada(ActionEvent event) {
+
+    }
+
+    @FXML
+    void editarParticipacion(ActionEvent event) {
+
+    }
+
+    @FXML
     void table_mouse_clicked(MouseEvent event) {
     	if(event.getButton().equals(MouseButton.PRIMARY)){
-            if(event.getClickCount() == 2 && tbOlimpiadas.getSelectionModel().getSelectedIndex() != -1 ){
+            if(event.getClickCount() == 2 && tbDeportistas.getSelectionModel().getSelectedIndex() != -1 ){
                 about(null);
             }
         }
@@ -330,20 +419,33 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     	//Valores de la columna de la tabla
     	lsNombre.setCellValueFactory(new PropertyValueFactory<Deportista, String>("nombre"));
     	lsSexo.setCellValueFactory(new PropertyValueFactory<Deportista, String>("sexo"));
-    	lsCiudad.setCellValueFactory(new PropertyValueFactory<Deportista, String>("ciudad"));
+    	lsPeso.setCellValueFactory(new PropertyValueFactory<Deportista, Integer>("peso"));
+    	lsAltura.setCellValueFactory(new PropertyValueFactory<Deportista, Integer>("altura"));
+    	
+    	lsNombre1.setCellValueFactory(new PropertyValueFactory<Evento, String>("nombre"));
+    	lsOlimpiada.setCellValueFactory(new PropertyValueFactory<Evento, String>("olimpiada"));
+    	lsAnio.setCellValueFactory(new PropertyValueFactory<Evento, Integer>("anio"));
+    	lsTemporada.setCellValueFactory(new PropertyValueFactory<Evento, String>("temporada"));
+    	lsCiudad.setCellValueFactory(new PropertyValueFactory<Evento, String>("ciudad"));
+    	lsDeporte.setCellValueFactory(new PropertyValueFactory<Evento, String>("deporte"));
     	
     	
     	o1 = FXCollections.observableArrayList();
+    	o2 = FXCollections.observableArrayList();
     	
     	aD = new DeportistaDao();
+    	aE = new EventoDao();
 		
 		o1.setAll(aD.cargarDeportistas());
+		o2.setAll(aE.cargarEventos());
 		
     	modificar=false;
     	
     	txtFiltro.setPromptText("Buscar...");
+    	txtFiltro1.setPromptText("Buscar...");
     	
     	filteredList = new FilteredList<Deportista>(o1, b -> true);
+    	filteredList1 = new FilteredList<Evento>(o2, b -> true);
     	
     	// Agregar un ChangeListener a la propiedad text del TextField
         txtFiltro.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -356,11 +458,24 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
                 return objeto.getNombre().contains(newValue);
             });
         });
+        txtFiltro1.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Actualizar el predicado de filtrado con el nuevo valor del TextField
+            filteredList1.setPredicate(objeto -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true; // Mostrar todos los objetos si no hay texto en el TextField
+                }
+                // Comparar el valor del TextField con la propiedad del objeto
+                return objeto.getNombre().contains(newValue);
+            });
+        });
         
         SortedList<Deportista> sortedData = new SortedList<Deportista>(filteredList);
-    	sortedData.comparatorProperty().bind(tbOlimpiadas.comparatorProperty());
+    	sortedData.comparatorProperty().bind(tbDeportistas.comparatorProperty());
+    	SortedList<Evento> sortedData1 = new SortedList<Evento>(filteredList1);
+    	sortedData1.comparatorProperty().bind(tbEventos.comparatorProperty());
     	
-    	tbOlimpiadas.setItems(sortedData);
+    	tbDeportistas.setItems(sortedData);
+    	tbEventos.setItems(sortedData1);
     }
     
 }
