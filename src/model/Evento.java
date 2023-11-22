@@ -1,23 +1,21 @@
 package model;
 
-import java.io.InputStream;
 import java.util.Objects;
 
 
 //Clase Deportista
 public class Evento {
 	
-	private String nombre, sexo, evento, equipo, medalla;
-	private int id, peso, altura, edad;
-	private InputStream image;
+	private String nombre, olimpiada, temporada, ciudad, deporte;
+	private int id, anio;
 	
-	public Evento(int id,String nombre, String sexo, int peso, int altura, InputStream img) {
+	public Evento(int id, String nombre, String olimpiada, int anio, String temporada, String ciudad, String deporte) {
 		this.id=id;
 		this.nombre=nombre;
-		this.sexo=sexo;
-		this.peso=peso;
-		this.altura=altura;
-		this.image=img;
+		this.anio=anio;
+		this.temporada=temporada;
+		this.ciudad=ciudad;
+		this.deporte=deporte;
 	}
 
 	public String getNombre() {
@@ -28,36 +26,36 @@ public class Evento {
 		this.nombre = nombre;
 	}
 
-	public String getSexo() {
-		return sexo;
+	public String getOlimpiada() {
+		return olimpiada;
 	}
 
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
+	public void setOlimpiada(String olimpiada) {
+		this.olimpiada = olimpiada;
 	}
 
-	public String getEvento() {
-		return evento;
+	public String getTemporada() {
+		return temporada;
 	}
 
-	public void setEvento(String evento) {
-		this.evento = evento;
+	public void setTemporada(String temporada) {
+		this.temporada = temporada;
 	}
 
-	public String getEquipo() {
-		return equipo;
+	public String getCiudad() {
+		return ciudad;
 	}
 
-	public void setEquipo(String equipo) {
-		this.equipo = equipo;
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
 	}
 
-	public String getMedalla() {
-		return medalla;
+	public String getDeporte() {
+		return deporte;
 	}
 
-	public void setMedalla(String medalla) {
-		this.medalla = medalla;
+	public void setDeporte(String deporte) {
+		this.deporte = deporte;
 	}
 
 	public int getId() {
@@ -68,41 +66,17 @@ public class Evento {
 		this.id = id;
 	}
 
-	public int getPeso() {
-		return peso;
+	public int getAnio() {
+		return anio;
 	}
 
-	public void setPeso(int peso) {
-		this.peso = peso;
-	}
-
-	public int getAltura() {
-		return altura;
-	}
-
-	public void setAltura(int altura) {
-		this.altura = altura;
-	}
-
-	public int getEdad() {
-		return edad;
-	}
-
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
-
-	public InputStream getImage() {
-		return image;
-	}
-
-	public void setImage(InputStream image) {
-		this.image = image;
+	public void setAnio(int anio) {
+		this.anio = anio;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(altura, edad, equipo, evento, id, image, medalla, nombre, peso, sexo);
+		return Objects.hash(anio, ciudad, deporte, id, nombre, olimpiada, temporada);
 	}
 
 	@Override
@@ -114,13 +88,10 @@ public class Evento {
 		if (getClass() != obj.getClass())
 			return false;
 		Evento other = (Evento) obj;
-		return altura == other.altura && edad == other.edad && Objects.equals(equipo, other.equipo)
-				&& Objects.equals(evento, other.evento) && id == other.id && Objects.equals(image, other.image)
-				&& Objects.equals(medalla, other.medalla) && Objects.equals(nombre, other.nombre) && peso == other.peso
-				&& Objects.equals(sexo, other.sexo);
+		return anio == other.anio && Objects.equals(ciudad, other.ciudad) && Objects.equals(deporte, other.deporte)
+				&& id == other.id && Objects.equals(nombre, other.nombre) && Objects.equals(olimpiada, other.olimpiada)
+				&& Objects.equals(temporada, other.temporada);
 	}
-
-	
 
 	
 	
