@@ -48,7 +48,7 @@
             <TableColumn fx:id="lsPeso" prefWidth="78.0" text="Peso" />
             <TableColumn fx:id="lsAltura" prefWidth="71.0" text="Altura" />
             <TableColumn fx:id="lsOlimpiada" prefWidth="75.0" text="Olimpiada" visible="false" />
-            <TableColumn fx:id="lsAnio" prefWidth="75.0" text="Añio" visible="false" />
+            <TableColumn fx:id="lsAnio" prefWidth="75.0" text="Año" visible="false" />
             <TableColumn fx:id="lsTemporada" prefWidth="75.0" text="Temporada" visible="false" />
             <TableColumn fx:id="lsCiudad" prefWidth="75.0" text="Ciudad" visible="false" />
             <TableColumn fx:id="lsDeporte" prefWidth="75.0" text="Deporte" visible="false" />
@@ -59,8 +59,9 @@
          <contextMenu>
             <ContextMenu fx:id="ctMenu">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#editarAeropuerto" text="editar" />
-                  <MenuItem mnemonicParsing="false" onAction="#borrarAeropuerto" text="borrar" />
+                <MenuItem mnemonicParsing="false" onAction="#editar" text="editar" />
+                  <MenuItem mnemonicParsing="false" onAction="#borrar" text="borrar" />
+                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
               </items>
             </ContextMenu>
          </contextMenu>
@@ -78,9 +79,9 @@
       </Label>
       <MenuBar GridPane.columnSpan="7">
         <menus>
-          <Menu mnemonicParsing="false" text="Ayuda">
+          <Menu mnemonicParsing="false" text="Informacion">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#about" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#about" text="Informacion detallada" />
             </items>
           </Menu>
         </menus>
@@ -88,12 +89,12 @@
             <Insets left="-20.0" />
          </GridPane.margin>
       </MenuBar>
-      <RadioButton fx:id="rbDeportistas" mnemonicParsing="false" selected="true" text="Deportistas" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2">
+      <RadioButton fx:id="rbDeportistas" mnemonicParsing="false" onAction="#clickDeportistas" selected="true" text="Deportistas" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2">
          <toggleGroup>
             <ToggleGroup fx:id="gpOlimpiadas" />
          </toggleGroup></RadioButton>
       <Button mnemonicParsing="false" onAction="#añadir" text="Añadir" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" />
-      <RadioButton fx:id="rbEventos" mnemonicParsing="false" text="Eventos" toggleGroup="$gpOlimpiadas" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" />
+      <RadioButton fx:id="rbEventos" mnemonicParsing="false" onAction="#clickEventos" text="Eventos" toggleGroup="$gpOlimpiadas" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" />
    </children>
    <padding>
       <Insets left="20.0" />
