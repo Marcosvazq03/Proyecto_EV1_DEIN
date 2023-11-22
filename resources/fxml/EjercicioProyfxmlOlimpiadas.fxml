@@ -39,17 +39,12 @@
       <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TableView fx:id="tbOlimpiadas" onMouseClicked="#table_mouse_clicked" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="7" GridPane.rowIndex="4" GridPane.rowSpan="7">
+      <TableView fx:id="tbDeportistas" onMouseClicked="#table_mouse_clicked" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="7" GridPane.rowIndex="4" GridPane.rowSpan="7">
         <columns>
           <TableColumn fx:id="lsNombre" prefWidth="94.0" text="Nombre" />
           <TableColumn fx:id="lsSexo" prefWidth="59.0" text="Sexo" />
             <TableColumn fx:id="lsPeso" prefWidth="78.0" text="Peso" />
             <TableColumn fx:id="lsAltura" prefWidth="71.0" text="Altura" />
-            <TableColumn fx:id="lsOlimpiada" prefWidth="75.0" text="Olimpiada" visible="false" />
-            <TableColumn fx:id="lsAnio" prefWidth="75.0" text="Año" visible="false" />
-            <TableColumn fx:id="lsTemporada" prefWidth="75.0" text="Temporada" visible="false" />
-            <TableColumn fx:id="lsCiudad" prefWidth="75.0" text="Ciudad" visible="false" />
-            <TableColumn fx:id="lsDeporte" prefWidth="75.0" text="Deporte" visible="false" />
         </columns>
          <GridPane.margin>
             <Insets bottom="15.0" right="15.0" top="15.0" />
@@ -120,6 +115,19 @@
             <ToggleGroup fx:id="gpOlimpiadas" />
          </toggleGroup></RadioButton>
       <RadioButton fx:id="rbEventos" mnemonicParsing="false" onAction="#clickEventos" text="Eventos" toggleGroup="$gpOlimpiadas" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" />
+      <TableView fx:id="tbEventos" onMouseClicked="#table_mouse_clicked" prefHeight="200.0" prefWidth="200.0" visible="false" GridPane.columnSpan="7" GridPane.rowIndex="4" GridPane.rowSpan="7">
+         <columns>
+            <TableColumn fx:id="lsNombre1" prefWidth="94.0" text="Nombre" />
+            <TableColumn fx:id="lsOlimpiada" prefWidth="75.0" text="Olimpiada" />
+            <TableColumn fx:id="lsAnio" prefWidth="75.0" text="Año" />
+            <TableColumn fx:id="lsTemporada" prefWidth="75.0" text="Temporada" />
+            <TableColumn fx:id="lsCiudad" prefWidth="75.0" text="Ciudad" />
+            <TableColumn fx:id="lsDeporte" prefWidth="75.0" text="Deporte" />
+         </columns>
+         <GridPane.margin>
+            <Insets bottom="15.0" right="15.0" top="15.0" />
+         </GridPane.margin>
+      </TableView>
    </children>
    <padding>
       <Insets left="20.0" />
