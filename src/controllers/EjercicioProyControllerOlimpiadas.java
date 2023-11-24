@@ -132,9 +132,8 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 		return borrar;
 	}
 
- 	/*public boolean crearAeropuerto(String nombre, String pais, String ciudad, String calle, int numero, int anio, int capacidad, boolean publico, int financiacion, int num_trab, int num_soc, InputStream imagen) {
- 		Deportista d = (Deportista) tbDeportistas.getSelectionModel().getSelectedItem();
- 		Deportista p = new Deportista(aD.ultimoIDAer(), nombre, pais, ciudad, calle, numero, anio, capacidad, null);
+ 	public boolean crearDeportista(String nombre, String sexo, int altura, int peso, InputStream imagen) {
+ 		Deportista p = new Deportista(aD.ultimoIDAer(), nombre, sexo, altura, peso, null);
      	boolean esta=false;
  		if (o1 !=null) {
  			//Comprobar si existe en la tabla
@@ -146,20 +145,15 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
  			return false;
  		}else {
  			//Crear y añadirla a la tabla
- 			aD.insertAeropuerto(aD.ultimoIDAer(), nombre, pais, ciudad, calle, numero, anio, capacidad, publico, financiacion, num_trab, num_soc, imagen);
- 			if (publico) {
-				p.setFinanciacion(financiacion);
-	 			p.setNTrabajadores(num_trab);
-			}else {
-				p.setNSocios(num_soc);
-			} 			
+ 			aD.insertProducto(aD.ultimoIDAer(), nombre, sexo, altura, peso, imagen);
+ 						
  			o1.add(p);
  			
  			return true;
  		}
      }
  	
-     public void modificarAeropuerto(String nombre, String pais, String ciudad, String calle, int numero, int anio, int capacidad, boolean publico, int financiacion, int num_trab, int num_soc) {
+     /*public void modificarAeropuerto(String nombre, String pais, String ciudad, String calle, int numero, int anio, int capacidad, boolean publico, int financiacion, int num_trab, int num_soc) {
      	//Modificar objeto de la tabla
      	Deportista p = new Deportista(tbDeportistas.getSelectionModel().getSelectedItem().getId(), nombre, pais, ciudad, calle, numero, anio, capacidad, null);
      	for (int i = 0; i < o1.size(); i++) {

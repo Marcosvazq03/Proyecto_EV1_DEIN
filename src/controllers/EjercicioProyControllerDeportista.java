@@ -84,33 +84,33 @@ public class EjercicioProyControllerDeportista {
     	stage.close();
     }
 	
+	private boolean esNumero(TextField txt) {
+    	boolean esNum = true;
+    	try {
+            Integer.parseInt(txt.getText().toString());
+        } catch (NumberFormatException excepcion) {
+            esNum = false;
+        }
+    	return esNum;
+    }
+	
 	@FXML
     void aniadir(ActionEvent event) {
 		//Comprobar que en un numero
-		boolean esNumNumero = esNumero(txtNumero);
-    	boolean esNumAnio = esNumero(txtAnio);
-    	boolean esNumCapacidad = esNumero(txtCapacidad);
-    	boolean esNumNTrabajadores = true;
-    	boolean esNumNSocios = true;
-    	boolean esNumFinanciacion=true;
-    	
+		boolean esNumAltura = esNumero(txtAltura);
+    	boolean esNumPeso = esNumero(txtPeso);
     	
     	//Alerta introducir todos los datos
-    	boolean publico=true;
-    	boolean mal = false;
-    	
-		if (txtNombre.getText().toString().equals("") || txtPais.getText().toString().equals("") 
-				|| txtCiudad.getText().toString().equals("") || txtCalle.getText().toString().equals("") 
-				|| esNumNumero==false || esNumAnio==false || esNumCapacidad==false || esNumFinanciacion==false 
-				|| esNumNTrabajadores==false || esNumNSocios==false || mal) {
+		if (txtNombre.getText().toString().equals("") || txtSexo.getText().toString().equals("") 
+				|| txtAltura.getText().toString().equals("") || txtPeso.getText().toString().equals("") 
+				|| esNumAltura==false || esNumPeso==false) {
     		String err = "";
-			if (txtNombre.getText().toString().equals("") || txtPais.getText().toString().equals("") 
-				|| txtCiudad.getText().toString().equals("") || txtCalle.getText().toString().equals("") || mal) {
+			if (txtNombre.getText().toString().equals("") || txtSexo.getText().toString().equals("") 
+					|| txtAltura.getText().toString().equals("") || txtPeso.getText().toString().equals("")) {
 				err="Rellenar todos los campos\n";
 			}
 			String err2 = "";
-			if (esNumNumero==false || esNumAnio==false || esNumCapacidad==false || esNumFinanciacion==false 
-    				|| esNumNTrabajadores==false || esNumNSocios==false) {
+			if (esNumAltura==false || esNumPeso==false) {
 				err2="Los campos no tienen el correcto formato";
 			}
     		
@@ -120,10 +120,8 @@ public class EjercicioProyControllerDeportista {
             alert.setContentText(err+err2);
             alert.showAndWait();
 		}else {
-			if (ejLControllerAeropuerto.crearAeropuerto(txtNombre.getText().toString(), txtPais.getText().toString(), txtCiudad.getText().toString(), 
-					txtCalle.getText().toString(), Integer.parseInt(txtNumero.getText().toString()), Integer.parseInt(txtAnio.getText().toString()), 
-					Integer.parseInt(txtCapacidad.getText().toString()), publico, Integer.parseInt(txtFinanciacion.getText().toString()), 
-					Integer.parseInt(txtNTrabajadores.getText().toString()), Integer.parseInt(txtNSocio.getText().toString()), imageBinary)) {
+			if (ejProyControllerOlim.crearDeportista(txtNombre.getText().toString(), txtSexo.getText().toString(), 
+					Integer.parseInt(txtAltura.getText().toString()), Integer.parseInt(txtPeso.getText().toString()), imageBinary)) {
 				//Ventana de informacion
 	        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 	            alert.setTitle("Info");
