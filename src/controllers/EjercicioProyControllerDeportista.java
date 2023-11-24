@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class EjercicioProyControllerDeportista {
+	
+	private EjercicioProyControllerOlimpiadas ejProyControllerOlim;
 
     @FXML
     private ImageView imageSelected;
@@ -96,26 +98,7 @@ public class EjercicioProyControllerDeportista {
     	//Alerta introducir todos los datos
     	boolean publico=true;
     	boolean mal = false;
-    	if (rbPublico.isSelected()) {
-    		if (!txtFinanciacion.getText().matches("^-?[0-9]+([\\.,][0-9]+)?$")) {
-        		esNumFinanciacion=false;
-			}
-    		esNumNTrabajadores = esNumero(txtNTrabajadores);
-			if (txtFinanciacion.getText().equals("") || txtNTrabajadores.getText().equals("")){
-				mal=true;
-			}
-			txtNSocio.setText("0");
-		}
     	
-    	if (rbPrivado.isSelected()) {
-    		publico=false;
-    		esNumNSocios = esNumero(txtNSocio);
-    		if (txtNSocio.getText().equals("")){
-				mal=true;
-			}
-    		txtFinanciacion.setText("0");
-    		txtNTrabajadores.setText("0");
-    	}
 		if (txtNombre.getText().toString().equals("") || txtPais.getText().toString().equals("") 
 				|| txtCiudad.getText().toString().equals("") || txtCalle.getText().toString().equals("") 
 				|| esNumNumero==false || esNumAnio==false || esNumCapacidad==false || esNumFinanciacion==false 
@@ -145,7 +128,7 @@ public class EjercicioProyControllerDeportista {
 	        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 	            alert.setTitle("Info");
 	            alert.setHeaderText(null);
-	            alert.setContentText("Aeropuerto añadido correctamente");
+	            alert.setContentText("Deportista añadido correctamente");
 	            alert.showAndWait();
 	          
 	            //Cerrar ventana modal
@@ -159,9 +142,13 @@ public class EjercicioProyControllerDeportista {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("TUS DATOS");
                 alert.setHeaderText(null);
-                alert.setContentText("Aeropuerto ya existe!");
+                alert.setContentText("Deportista ya existe!");
                 alert.showAndWait();
 			}
 		}
+    }
+	
+	public void setControlerL(EjercicioProyControllerOlimpiadas ej) {
+    	this.ejProyControllerOlim= ej;
     }
 }

@@ -132,7 +132,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 		return borrar;
 	}
 
- 	public boolean crearAeropuerto(String nombre, String pais, String ciudad, String calle, int numero, int anio, int capacidad, boolean publico, int financiacion, int num_trab, int num_soc, InputStream imagen) {
+ 	/*public boolean crearAeropuerto(String nombre, String pais, String ciudad, String calle, int numero, int anio, int capacidad, boolean publico, int financiacion, int num_trab, int num_soc, InputStream imagen) {
  		Deportista d = (Deportista) tbDeportistas.getSelectionModel().getSelectedItem();
  		Deportista p = new Deportista(aD.ultimoIDAer(), nombre, pais, ciudad, calle, numero, anio, capacidad, null);
      	boolean esta=false;
@@ -190,65 +190,62 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 	public void borrarAvion(String nombre) {
 	  	//Modificar objeto de la tabla
 	  	aD.elimAvion(aD.buscarIDModelo(nombre));
-	}
+	}*/
     
 	@FXML
     void about(ActionEvent event) {
-		
-		//Comprobar que hay seleccionado un objeto en la tabla
-    	if (tbDeportistas.getSelectionModel().isEmpty()) {
-    		//Ventana error
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setTitle("Error");
-            alert.setContentText("No has seleccionado ningun aeropuerto de la tabla!");
-            alert.showAndWait();
-		}else {
-			//Informacion objeto de la tabla
-			String financiacion="";
-			String nTrabajadores="";
-			String nSocios="";
-			String privacidad="Publico\n";
-			if (rbPrivados.isSelected()) {
-				privacidad="Privado\n";
-				nSocios="Numero de socios: "+tbDeportistas.getSelectionModel().getSelectedItem().getNSocios()+"\n";
+		if (rbDeportistas.isSelected()) {
+			//Comprobar que hay seleccionado un objeto en la tabla
+	    	if (tbDeportistas.getSelectionModel().isEmpty()) {
+	    		//Ventana error
+	            Alert alert = new Alert(Alert.AlertType.ERROR);
+	            alert.setHeaderText(null);
+	            alert.setTitle("Error");
+	            alert.setContentText("No has seleccionado ningun deportista de la tabla!");
+	            alert.showAndWait();
 			}else {
-				financiacion="Financiacion: "+tbDeportistas.getSelectionModel().getSelectedItem().getFinanciacion()+"\n";
-				nTrabajadores="Numero de trabajadores: "+tbDeportistas.getSelectionModel().getSelectedItem().getNTrabajadores()+"\n";
+				//Informacion objeto de la tabla
+				String financiacion="";
+				String nTrabajadores="";
+				String nSocios="";
+				String privacidad="Publico\n";
+				String aviones = aD.listarAviones(tbDeportistas.getSelectionModel().getSelectedItem().getId());
+		    	String mensaje="Nombre: "+tbDeportistas.getSelectionModel().getSelectedItem().getNombre()+"\n"
+		    			+ "Pais: "+tbDeportistas.getSelectionModel().getSelectedItem().getPais()+"\n"
+		    			+ "Direccion: C. "+tbDeportistas.getSelectionModel().getSelectedItem().getCalle()+"\n"
+		    			+ "Año de inaguracion: "+tbDeportistas.getSelectionModel().getSelectedItem().getAno()+"\n"
+		    			+ "Capacidad: "+tbDeportistas.getSelectionModel().getSelectedItem().getCapacidad()+"\n"
+		    			+ "Aviones: \n"
+		    			+aviones
+		    			+privacidad
+		    			+financiacion
+		    			+nTrabajadores
+		    			+nSocios;
+		    	
+		    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		        alert.setTitle("Informacion");
+		        alert.setHeaderText(null);
+		        alert.setContentText(mensaje);
+		        alert.showAndWait();
+		        
 			}
-			String aviones = aD.listarAviones(tbDeportistas.getSelectionModel().getSelectedItem().getId());
-	    	String mensaje="Nombre: "+tbDeportistas.getSelectionModel().getSelectedItem().getNombre()+"\n"
-	    			+ "Pais: "+tbDeportistas.getSelectionModel().getSelectedItem().getPais()+"\n"
-	    			+ "Direccion: C. "+tbDeportistas.getSelectionModel().getSelectedItem().getCalle()+"\n"
-	    			+ "Año de inaguracion: "+tbDeportistas.getSelectionModel().getSelectedItem().getAno()+"\n"
-	    			+ "Capacidad: "+tbDeportistas.getSelectionModel().getSelectedItem().getCapacidad()+"\n"
-	    			+ "Aviones: \n"
-	    			+aviones
-	    			+privacidad
-	    			+financiacion
-	    			+nTrabajadores
-	    			+nSocios;
-	    	
-	    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
-	        alert.setTitle("Informacion");
-	        alert.setHeaderText(null);
-	        alert.setContentText(mensaje);
-	        alert.showAndWait();
-	        
+		}else {
+			
 		}
+		
     }
 
 	@FXML
     void aniadirDeporte(ActionEvent event) {
 		//Abrir ventana modal
-		FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioLfxmlAniadirAeropuerto.fxml"));
+		FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlDeportista.fxml"));
     	Stage stage = new Stage();
-    	EjercicioLControllerAniadirAeropuertos ejLC = new EjercicioLControllerAniadirAeropuertos();
+    	EjercicioProyControllerDeportista ejLC = new EjercicioProyControllerDeportista();
     	loader.setController(ejLC);
     	Parent root;
 		try {
 			root = loader.load();
-	    	EjercicioLControllerAniadirAeropuertos ejLC2 = loader.getController();
+	    	EjercicioProyControllerDeportista ejLC2 = loader.getController();
 	    	ejLC2.setControlerL(this);
 	        stage.setScene(new Scene(root,500,700));
 	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
