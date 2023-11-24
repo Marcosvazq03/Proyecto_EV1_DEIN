@@ -15,20 +15,44 @@ import model.Deportista;
 public class DeportistaDao {
     private ConexionBD conexion;
     
-    public void insertProducto(String codigo, String nombre, Double precio, int disponible, InputStream imagen) {
+    public int ultimoIDAer() {
+    	//Saca el ultimo id
+    	int id=-1;
+    	try {
+            conexion = new ConexionBD();        	
+        	String consulta = "select id from Deportista";
+        	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
+        	ResultSet rs = pstmt.executeQuery();   
+			 while (rs.next()) {
+		            int idA = rs.getInt("id_deportista");
+		            if (idA>id) {
+						id=idA;
+					}
+			 }             
+			rs.close();       
+	        conexion.CloseConexion();
+	    } catch (SQLException e) {	    	
+	    	e.printStackTrace();
+	    }    
+    	id=id+1;
+    	return id;
+    }
+    
+    public void insertProducto(int codigo, String nombre, String sexo, int altura, int peso, InputStream imagen) {
     	//Inserta objeto en la BBDD
     	try {
             conexion = new ConexionBD();        	
             
-			String consulta = "INSERT INTO productos(codigo, nombre, precio, disponible, imagen) VALUES(?,?,?,?,?)";
+			String consulta = "INSERT INTO Deportista(id_deportista, nombre, sexo, altura, peso, imagen) VALUES(?,?,?,?,?,?)";
 			
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);  
         	
-        	pstmt.setString(1, codigo);
+        	pstmt.setInt(1, codigo);
         	pstmt.setString(2, nombre);
-        	pstmt.setDouble(3, precio);
-        	pstmt.setInt(4, disponible);
-        	pstmt.setBinaryStream(5, imagen);
+        	pstmt.setString(3, sexo);
+        	pstmt.setInt(4, altura);
+        	pstmt.setInt(5, peso);
+        	pstmt.setBinaryStream(6, imagen);
         	
 			pstmt.execute();
 			
