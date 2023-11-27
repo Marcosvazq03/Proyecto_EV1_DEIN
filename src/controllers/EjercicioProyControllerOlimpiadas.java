@@ -203,7 +203,8 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 				String nTrabajadores="";
 				String nSocios="";
 				String privacidad="Publico\n";
-				String aviones = aD.listarAviones(tbDeportistas.getSelectionModel().getSelectedItem().getId());
+				String mensaje="";
+				/*String aviones = aD.listarAviones(tbDeportistas.getSelectionModel().getSelectedItem().getId());
 		    	String mensaje="Nombre: "+tbDeportistas.getSelectionModel().getSelectedItem().getNombre()+"\n"
 		    			+ "Pais: "+tbDeportistas.getSelectionModel().getSelectedItem().getPais()+"\n"
 		    			+ "Direccion: C. "+tbDeportistas.getSelectionModel().getSelectedItem().getCalle()+"\n"
@@ -214,7 +215,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 		    			+privacidad
 		    			+financiacion
 		    			+nTrabajadores
-		    			+nSocios;
+		    			+nSocios;*/
 		    	
 		    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		        alert.setTitle("Informacion");
@@ -291,7 +292,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 			//Eliminar objeto de la tabla
 	    	for (int i = 0; i < o1.size(); i++) {
 				if (tbDeportistas.getSelectionModel().getSelectedItem()==o1.get(i)) {
-					aD.elimAeropuerto(tbDeportistas.getSelectionModel().getSelectedItem().getId());
+					aD.elimProducto(tbDeportistas.getSelectionModel().getSelectedItem().getId());
 					o1.remove(i);
 				}
 			}
@@ -360,11 +361,11 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 			modificar=true;
 			try {
 				//Abrir ventana modal
-				FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioLfxmlAniadirAeropuerto.fxml"));
+				FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlDeportista.fxml"));
 		    	Stage stage = new Stage();
-		    	EjercicioLControllerAniadirAeropuertos ejLC = new EjercicioLControllerAniadirAeropuertos();
+		    	EjercicioProyControllerDeportista ejLC = new EjercicioProyControllerDeportista();
 		    	loader.setController(ejLC);
-		    	EjercicioLControllerAniadirAeropuertos ejLC2 = loader.getController();
+		    	EjercicioProyControllerDeportista ejLC2 = loader.getController();
 		    	ejLC2.setControlerL(this);
 		    	Parent root= loader.load();
 		        stage.setScene(new Scene(root,500,700));
