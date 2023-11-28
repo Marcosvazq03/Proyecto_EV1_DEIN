@@ -20,7 +20,7 @@ public class DeportistaDao {
     	int id=-1;
     	try {
             conexion = new ConexionBD();        	
-        	String consulta = "select id from Deportista";
+        	String consulta = "select id_deportista from Deportista";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
         	ResultSet rs = pstmt.executeQuery();   
 			 while (rs.next()) {
@@ -43,7 +43,7 @@ public class DeportistaDao {
     	try {
             conexion = new ConexionBD();        	
             
-			String consulta = "INSERT INTO Deportista(id_deportista, nombre, sexo, altura, peso, imagen) VALUES(?,?,?,?,?,?)";
+			String consulta = "INSERT INTO Deportista(id_deportista, nombre, sexo, altura, peso, foto) VALUES(?,?,?,?,?,?)";
 			
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);  
         	
@@ -61,18 +61,38 @@ public class DeportistaDao {
 	    	System.out.println(e.getMessage());
 	    }
     }
+    
+    public ObservableList<String> cargarDeportistasNombre()  {
+    	ObservableList<String> aeropuertos = FXCollections.observableArrayList();
+        try {
+        	conexion = new ConexionBD();        	
+        	String consulta = "select * from Deportista";
+        	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
+        	ResultSet rs = pstmt.executeQuery();   
+			 while (rs.next()) {
+				 String nombre = rs.getString("nombre");
+				 aeropuertos.add(nombre);
+			 }
+			 rs.close();       
+	         conexion.CloseConexion();
+	    } catch (SQLException e) {	    	
+	    	e.printStackTrace();
+	    }    
+        return aeropuertos;    
+    }
 
-	public void modProducto(String codigo, String nombre, Double precio, int disponible, InputStream imagen) {
+	public void modProducto(int codigo, String nombre, String sexo, int peso, int altura, InputStream imagen) {
     	//Modifica objeto en la BBDD
     	try {
 	        conexion = new ConexionBD();        	
-        	String consulta = "UPDATE examen1.productos SET nombre = ?, precio = ?, disponible = ?, imagen = ? WHERE codigo = ?";
+        	String consulta = "UPDATE olimpiadas.Deportista SET nombre = ?, sexo = ?, peso = ?, altura = ?, foto = ? WHERE id_deportista = ?";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);  
         	pstmt.setString(1, nombre);
-        	pstmt.setDouble(2, precio);
-        	pstmt.setInt(3, disponible);
-        	pstmt.setBinaryStream(4, imagen);
-        	pstmt.setString(5, codigo);
+        	pstmt.setString(2, sexo);
+        	pstmt.setInt(3, peso);
+        	pstmt.setInt(4, altura);
+        	pstmt.setBinaryStream(5, imagen);
+        	pstmt.setInt(6, codigo);
 			pstmt.execute();
 	        conexion.CloseConexion();
 	    } catch (SQLException e) {	    	
