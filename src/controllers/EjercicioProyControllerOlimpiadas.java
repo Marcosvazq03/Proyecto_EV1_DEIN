@@ -153,23 +153,22 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
  		}
      }
  	
-     /*public void modificarAeropuerto(String nombre, String pais, String ciudad, String calle, int numero, int anio, int capacidad, boolean publico, int financiacion, int num_trab, int num_soc) {
+     public void modificarDeportista(String nombre, String sexo, int peso, int altura, InputStream imagen) {
      	//Modificar objeto de la tabla
-     	Deportista p = new Deportista(tbDeportistas.getSelectionModel().getSelectedItem().getId(), nombre, pais, ciudad, calle, numero, anio, capacidad, null);
+     	Deportista p = new Deportista(tbDeportistas.getSelectionModel().getSelectedItem().getId(), nombre, sexo, peso, altura, imagen);
      	for (int i = 0; i < o1.size(); i++) {
  			if (tbDeportistas.getSelectionModel().getSelectedItem()==o1.get(i)) {
- 				aD.modAeropuerto(tbDeportistas.getSelectionModel().getSelectedItem().getId(),nombre, pais, ciudad, calle, numero, anio, capacidad, publico, financiacion, num_trab, num_soc);
- 				if (publico) {
- 					p.setFinanciacion(financiacion);
- 		 			p.setNTrabajadores(num_trab);
- 				}else {
- 					p.setNSocios(num_soc);
- 				}
+ 				aD.modProducto(tbDeportistas.getSelectionModel().getSelectedItem().getId(), nombre, sexo, peso, altura, imagen);
+ 				
  				o1.set(i, p);
  			}
  		}
      }
      
+     public ObservableList<String> cargarDeportistasNombre() {
+      	return aD.cargarDeportistasNombre();
+      }
+    /*
     // Metodos de Avion
   	public void crearAvion(String modelo, int numero_asiento, int velocidad_maxima, int activado, int id_aeropuerto) {
 		//Crear objeto
@@ -232,7 +231,12 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 
 	@FXML
     void aniadirDeporte(ActionEvent event) {
-		//Abrir ventana modal
+		
+    }
+
+    @FXML
+    void aniadirDeportista(ActionEvent event) {
+    	//Abrir ventana modal
 		FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlDeportista.fxml"));
     	Stage stage = new Stage();
     	EjercicioProyControllerDeportista ejLC = new EjercicioProyControllerDeportista();
@@ -242,20 +246,15 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 			root = loader.load();
 	    	EjercicioProyControllerDeportista ejLC2 = loader.getController();
 	    	ejLC2.setControlerL(this);
-	        stage.setScene(new Scene(root,500,700));
+	        stage.setScene(new Scene(root,400,600));
 	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
-	        stage.setTitle("Añadir Aeropuerto");
+	        stage.setTitle("Añadir Deportista");
 	        stage.initModality(Modality.APPLICATION_MODAL);
 	        stage.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-
-    @FXML
-    void aniadirDeportista(ActionEvent event) {
-
     }
 
     @FXML
@@ -286,7 +285,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setTitle("Error");
-            alert.setContentText("No has seleccionado ningun aeropuerto de la tabla!");
+            alert.setContentText("No has seleccionado ningun deportista de la tabla!");
             alert.showAndWait();
 		}else {
 			//Eliminar objeto de la tabla
@@ -301,7 +300,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 	    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 	        alert.setTitle("Info");
 	        alert.setHeaderText(null);
-	        alert.setContentText("Aeropuerto eliminado correctamente");
+	        alert.setContentText("Deportista eliminado correctamente");
 	        alert.showAndWait();
 		}
     }
@@ -349,39 +348,29 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     
     @FXML
     void editarDeporte(ActionEvent event) {
-    	//Comprobar que hay seleccionado un objeto en la tabla
-    	if (tbDeportistas.getSelectionModel().isEmpty()) {
-    		//Ventana error
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setTitle("Error");
-            alert.setContentText("No has seleccionado ningun aeropuerto de la tabla!");
-            alert.showAndWait();
-		}else {
-			modificar=true;
-			try {
-				//Abrir ventana modal
-				FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlDeportista.fxml"));
-		    	Stage stage = new Stage();
-		    	EjercicioProyControllerDeportista ejLC = new EjercicioProyControllerDeportista();
-		    	loader.setController(ejLC);
-		    	EjercicioProyControllerDeportista ejLC2 = loader.getController();
-		    	ejLC2.setControlerL(this);
-		    	Parent root= loader.load();
-		        stage.setScene(new Scene(root,500,700));
-		        stage.initOwner(this.tbDeportistas.getScene().getWindow());
-		        stage.setTitle("Editar Aeropuerto");
-		        stage.initModality(Modality.APPLICATION_MODAL);
-		        stage.showAndWait();
-	    	}catch (Exception e) {
-	    		System.out.println(e.getMessage());
-			}
-		}
+    	
     }
 
     @FXML
     void editarDeportista(ActionEvent event) {
-
+		modificar=true;
+		try {
+			//Abrir ventana modal
+			FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlDeportista.fxml"));
+	    	Stage stage = new Stage();
+	    	EjercicioProyControllerDeportista ejLC = new EjercicioProyControllerDeportista();
+	    	loader.setController(ejLC);
+	    	EjercicioProyControllerDeportista ejLC2 = loader.getController();
+	    	ejLC2.setControlerL(this);
+	    	Parent root= loader.load();
+	        stage.setScene(new Scene(root,500,700));
+	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
+	        stage.setTitle("Editar Deportista");
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.showAndWait();
+    	}catch (Exception e) {
+    		System.out.println(e.getMessage());
+		}
     }
 
     @FXML
