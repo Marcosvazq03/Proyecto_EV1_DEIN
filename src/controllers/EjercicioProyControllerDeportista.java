@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dao.DeportistaDao;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,6 +55,8 @@ public class EjercicioProyControllerDeportista implements Initializable{
 
     @FXML
     private Label txtTitulo;
+    
+    private DeportistaDao aD;
 	
     private InputStream imageBinary = null;
 	
@@ -185,12 +188,28 @@ public class EjercicioProyControllerDeportista implements Initializable{
 		}
     }
 	
+	@FXML
+    void cambiarDeportista(ActionEvent event) {
+		//Contenido del comboBox
+		Deportista d = aD.cargarDeportistaConNombre(cbDeportista.getSelectionModel().getSelectedItem());
+		txtNombre.setText(d.getNombre());
+		txtSexo.setText(d.getSexo());
+		txtPeso.setText(d.getPeso()+"");
+		txtAltura.setText(d.getAltura()+"");
+		if(d.getImage() != null) {
+			imageSelected.setImage(new Image(d.getImage()));
+		}else {
+			imageSelected.setImage(null);
+		}
+    }
+	
 	public void setControlerL(EjercicioProyControllerOlimpiadas ej) {
     	this.ejProyControllerOlim= ej;
     }
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		aD = new DeportistaDao();
 		if (ejProyControllerOlim!=null) {
     		if (ejProyControllerOlim.isModificar()) {
     			btnAccion.setText("Editar");
@@ -202,27 +221,16 @@ public class EjercicioProyControllerDeportista implements Initializable{
     	    	cbDeportista.setItems(FXCollections.observableArrayList(ejProyControllerOlim.cargarDeportistasNombre()));
     	    	cbDeportista.getSelectionModel().selectFirst();
     	    	
-				txtNombre.setText();
-				txtPais.setText(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getPais());
-				txtCiudad.setText(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getCiudad());
-				txtCalle.setText(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getCalle());
-				txtNumero.setText(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getNumero()+"");
-				txtAnio.setText(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getAno()+"");
-				txtCapacidad.setText(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getCapacidad()+"");
-				txtNSocio.setText(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getNSocios()+"");
-				txtFinanciacion.setText(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getFinanciacion()+"");
-				txtNTrabajadores.setText(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getNTrabajadores()+"");
-				if (ejProyControllerOlim.getRbPrivados().isSelected()) {
-					rbPrivado.setSelected(true);
-					rbPublico.setSelected(false);
-					clickPrivado(null);
+    	    	Deportista d = aD.cargarDeportistaConNombre(cbDeportista.getSelectionModel().getSelectedItem());
+				txtNombre.setText(d.getNombre());
+				txtSexo.setText(d.getSexo());
+				txtPeso.setText(d.getPeso()+"");
+				txtAltura.setText(d.getAltura()+"");
+				if(d.getImage() != null) {
+					imageSelected.setImage(new Image(d.getImage()));
 				}
-				rbPrivado.setDisable(true);
-				rbPublico.setDisable(true);
 			}
-    		if(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getImage() != null) {
-		 		imageSelected.setImage(new Image(ejProyControllerOlim.gettbDeportistas().getSelectionModel().getSelectedItem().getImage()));
-		 	}
+    		
 		}
 	}
 }

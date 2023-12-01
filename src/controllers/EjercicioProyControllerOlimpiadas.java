@@ -116,7 +116,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     
     private EventoDao aE;
     
-    public TableView<?> gettbDeportistas() {
+    public TableView<Deportista> gettbDeportistas() {
 		return tbDeportistas;
 	}
 
@@ -360,8 +360,8 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 	    	Stage stage = new Stage();
 	    	EjercicioProyControllerDeportista ejLC = new EjercicioProyControllerDeportista();
 	    	loader.setController(ejLC);
-	    	EjercicioProyControllerDeportista ejLC2 = loader.getController();
-	    	ejLC2.setControlerL(this);
+	    	ejLC = loader.getController();
+	    	ejLC.setControlerL(this);
 	    	Parent root= loader.load();
 	        stage.setScene(new Scene(root,500,700));
 	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
