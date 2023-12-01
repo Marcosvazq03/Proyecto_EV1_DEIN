@@ -88,7 +88,7 @@
             <Insets left="25.0" />
          </GridPane.margin>
       </Button>
-      <ComboBox fx:id="cbDeportista" prefWidth="150.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <ComboBox fx:id="cbDeportista" onAction="#cambiarDeportista" prefWidth="150.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Label fx:id="txtCB" text="Deportista: " visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets right="20.0" />
