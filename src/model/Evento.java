@@ -3,7 +3,7 @@ package model;
 import java.util.Objects;
 
 
-//Clase Deportista
+//Clase Evento
 public class Evento {
 	
 	private String nombre, olimpiada, temporada, ciudad, deporte;
