@@ -32,22 +32,22 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label text="Nombre: " GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+      <Label fx:id="lbNombre" text="Nombre: " GridPane.halignment="RIGHT" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Sexo(M/F): " GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+      <Label fx:id="lbSexo" text="Sexo(M/F): " GridPane.halignment="RIGHT" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Peso: " GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+      <Label fx:id="lbPeso" text="Peso: " GridPane.halignment="RIGHT" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Altura: " GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+      <Label fx:id="lbAltura" text="Altura: " GridPane.halignment="RIGHT" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin>
@@ -73,7 +73,7 @@
          </GridPane.margin>
       </TextField>
       <ImageView fx:id="imageSelected" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-      <Button mnemonicParsing="false" onAction="#click_select_imagen" text="Seleccionar imagen..." GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+      <Button fx:id="btnImagen" mnemonicParsing="false" onAction="#click_select_imagen" text="Seleccionar imagen..." GridPane.halignment="RIGHT" GridPane.rowIndex="6">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin>
