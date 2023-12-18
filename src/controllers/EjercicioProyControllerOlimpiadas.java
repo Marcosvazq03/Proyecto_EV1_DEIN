@@ -1,13 +1,9 @@
 package controllers;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import dao.DeportistaDao;
 import dao.EventoDao;
 import javafx.collections.FXCollections;
@@ -18,26 +14,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.FileChooser.ExtensionFilter;
 import model.Deportista;
 import model.Evento;
 
@@ -110,6 +100,8 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     
     private boolean modificar;
     
+    private boolean eliminar;
+    
     private boolean borrar;
     
     private DeportistaDao aD;
@@ -132,7 +124,11 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 		return borrar;
 	}
 
- 	public boolean crearDeportista(String nombre, String sexo, int altura, int peso, InputStream imagen) {
+ 	public boolean isEliminar() {
+		return eliminar;
+	}
+
+	public boolean crearDeportista(String nombre, String sexo, int altura, int peso, InputStream imagen) {
  		Deportista p = new Deportista(aD.ultimoIDAer(), nombre, sexo, altura, peso, null);
      	boolean esta=false;
  		if (o1 !=null) {
@@ -155,35 +151,32 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
  	
      public void modificarDeportista(String nombre, String sexo, int peso, int altura, InputStream imagen) {
      	//Modificar objeto de la tabla
-     	Deportista p = new Deportista(tbDeportistas.getSelectionModel().getSelectedItem().getId(), nombre, sexo, peso, altura, imagen);
+		 Deportista pD = aD.cargarDeportistaConNombre(nombre);
+     	Deportista p = new Deportista(pD.getId(), nombre, sexo, peso, altura, imagen);
      	for (int i = 0; i < o1.size(); i++) {
- 			if (tbDeportistas.getSelectionModel().getSelectedItem()==o1.get(i)) {
- 				aD.modProducto(tbDeportistas.getSelectionModel().getSelectedItem().getId(), nombre, sexo, peso, altura, imagen);
+ 			if (pD.getId()==o1.get(i).getId()) {
+ 				aD.modProducto(pD.getId(), nombre, sexo, peso, altura, imagen);
  				
  				o1.set(i, p);
  			}
  		}
      }
      
+     public void eliminarDeportista(String nombre) {
+      	//Modificar objeto de la tabla
+      	for (int i = 0; i < o1.size(); i++) {
+      		Deportista d = aD.cargarDeportistaConNombre(nombre);
+  			if (d.getId()==o1.get(i).getId()) {
+  				aD.elimProducto(d.getId());
+  				
+  				o1.remove(i);
+  			}
+  		}
+      }
+     
      public ObservableList<String> cargarDeportistasNombre() {
       	return aD.cargarDeportistasNombre();
       }
-    /*
-    // Metodos de Avion
-  	public void crearAvion(String modelo, int numero_asiento, int velocidad_maxima, int activado, int id_aeropuerto) {
-		//Crear objeto
-		aD.insertAvion(aD.ultimoIDAvi(), modelo, numero_asiento, velocidad_maxima, activado, id_aeropuerto);
-	}
-    
-	public void modificarAvion(String nombre, int activado) {
-	  	//Modificar objeto de la tabla
-	  	aD.modAvion(aD.buscarIDModelo(nombre),activado);
-	}
-	
-	public void borrarAvion(String nombre) {
-	  	//Modificar objeto de la tabla
-	  	aD.elimAvion(aD.buscarIDModelo(nombre));
-	}*/
     
 	@FXML
     void about(ActionEvent event) {
@@ -198,23 +191,13 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 	            alert.showAndWait();
 			}else {
 				//Informacion objeto de la tabla
-				String financiacion="";
-				String nTrabajadores="";
-				String nSocios="";
-				String privacidad="Publico\n";
-				String mensaje="";
-				/*String aviones = aD.listarAviones(tbDeportistas.getSelectionModel().getSelectedItem().getId());
+				String participaciones = aD.listarParticipaciones(tbDeportistas.getSelectionModel().getSelectedItem().getId());
+				if (participaciones.equals("")) {
+					participaciones = "Ninguna";
+				}
 		    	String mensaje="Nombre: "+tbDeportistas.getSelectionModel().getSelectedItem().getNombre()+"\n"
-		    			+ "Pais: "+tbDeportistas.getSelectionModel().getSelectedItem().getPais()+"\n"
-		    			+ "Direccion: C. "+tbDeportistas.getSelectionModel().getSelectedItem().getCalle()+"\n"
-		    			+ "Año de inaguracion: "+tbDeportistas.getSelectionModel().getSelectedItem().getAno()+"\n"
-		    			+ "Capacidad: "+tbDeportistas.getSelectionModel().getSelectedItem().getCapacidad()+"\n"
-		    			+ "Aviones: \n"
-		    			+aviones
-		    			+privacidad
-		    			+financiacion
-		    			+nTrabajadores
-		    			+nSocios;*/
+		    			+"Participaciones: \n"
+		    			+participaciones;
 		    	
 		    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		        alert.setTitle("Informacion");
@@ -279,35 +262,30 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     
     @FXML
     void eliminarDeporte(ActionEvent event) {
-    	//Comprobar que hay seleccionado una persona en la tabla
-    	if (tbDeportistas.getSelectionModel().isEmpty()) {
-    		//Ventana error
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setTitle("Error");
-            alert.setContentText("No has seleccionado ningun deportista de la tabla!");
-            alert.showAndWait();
-		}else {
-			//Eliminar objeto de la tabla
-	    	for (int i = 0; i < o1.size(); i++) {
-				if (tbDeportistas.getSelectionModel().getSelectedItem()==o1.get(i)) {
-					aD.elimProducto(tbDeportistas.getSelectionModel().getSelectedItem().getId());
-					o1.remove(i);
-				}
-			}
-			
-			//Ventana de informacion
-	    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
-	        alert.setTitle("Info");
-	        alert.setHeaderText(null);
-	        alert.setContentText("Deportista eliminado correctamente");
-	        alert.showAndWait();
-		}
+    	
     }
 
     @FXML
     void eliminarDeportista(ActionEvent event) {
-
+    	eliminar=true;
+    	try {
+			//Abrir ventana modal
+			FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlDeportista.fxml"));
+	    	Stage stage = new Stage();
+	    	EjercicioProyControllerDeportista ejLC = new EjercicioProyControllerDeportista();
+	    	loader.setController(ejLC);
+	    	ejLC = loader.getController();
+	    	ejLC.setControlerL(this);
+	    	Parent root= loader.load();
+	        stage.setScene(new Scene(root,400,300));
+	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
+	        stage.setTitle("Eliminar Deportista");
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.showAndWait();
+    	}catch (Exception e) {
+    		e.printStackTrace();
+		}
+    	eliminar=false;
     }
 
     @FXML
@@ -371,6 +349,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     	}catch (Exception e) {
     		System.out.println(e.getMessage());
 		}
+		modificar=false;
     }
 
     @FXML

@@ -33,16 +33,31 @@ public class EjercicioProyControllerDeportista implements Initializable{
     private Button btnAccion;
 
     @FXML
-    private ComboBox<String> cbDeportista;
+    private Button btnImagen;
 
     @FXML
-    private Label txtCB;
-    
+    private ComboBox<String> cbDeportista;
+
     @FXML
     private ImageView imageSelected;
 
     @FXML
+    private Label lbAltura;
+
+    @FXML
+    private Label lbNombre;
+
+    @FXML
+    private Label lbPeso;
+
+    @FXML
+    private Label lbSexo;
+
+    @FXML
     private TextField txtAltura;
+
+    @FXML
+    private Label txtCB;
 
     @FXML
     private TextField txtNombre;
@@ -143,23 +158,41 @@ public class EjercicioProyControllerDeportista implements Initializable{
             alert.setContentText(err+err2);
             alert.showAndWait();
 		}else {
-			if (ejProyControllerOlim.isModificar()) {
-				ejProyControllerOlim.modificarDeportista(txtNombre.getText().toString(), txtSexo.getText().toString(),
+			if (ejProyControllerOlim.isModificar() || ejProyControllerOlim.isEliminar()) {
+				if (ejProyControllerOlim.isEliminar()) {
+					ejProyControllerOlim.eliminarDeportista(cbDeportista.getSelectionModel().getSelectedItem());
+					
+					//Ventana de informacion
+		        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		            alert.setTitle("Info");
+		            alert.setHeaderText(null);
+		            alert.setContentText("Deportista eliminado correctamente");
+		            alert.showAndWait();
+		          
+		            //Cerrar ventana modal
+		        	//Me devuelve el elemento al que hice click
+		        	Node source = (Node) event.getSource();     
+		        	//Me devuelve la ventana donde se encuentra el elemento
+		        	Stage stage = (Stage) source.getScene().getWindow();    
+		        	stage.close();
+				}else {
+					ejProyControllerOlim.modificarDeportista(txtNombre.getText().toString(), txtSexo.getText().toString(),
 						Integer.parseInt(txtPeso.getText().toString()), Integer.parseInt(txtAltura.getText().toString()), imageBinary);
-				
-				//Ventana de informacion
-	        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
-	            alert.setTitle("Info");
-	            alert.setHeaderText(null);
-	            alert.setContentText("Deportista editado correctamente");
-	            alert.showAndWait();
-	          
-	            //Cerrar ventana modal
-	        	//Me devuelve el elemento al que hice click
-	        	Node source = (Node) event.getSource();     
-	        	//Me devuelve la ventana donde se encuentra el elemento
-	        	Stage stage = (Stage) source.getScene().getWindow();    
-	        	stage.close();
+					
+					//Ventana de informacion
+		        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		            alert.setTitle("Info");
+		            alert.setHeaderText(null);
+		            alert.setContentText("Deportista editado correctamente");
+		            alert.showAndWait();
+		          
+		            //Cerrar ventana modal
+		        	//Me devuelve el elemento al que hice click
+		        	Node source = (Node) event.getSource();     
+		        	//Me devuelve la ventana donde se encuentra el elemento
+		        	Stage stage = (Stage) source.getScene().getWindow();    
+		        	stage.close();
+				}
 			}else {
 				if (ejProyControllerOlim.crearDeportista(txtNombre.getText().toString(), txtSexo.getText().toString(), 
 						Integer.parseInt(txtAltura.getText().toString()), Integer.parseInt(txtPeso.getText().toString()), imageBinary)) {
@@ -229,6 +262,29 @@ public class EjercicioProyControllerDeportista implements Initializable{
 				if(d.getImage() != null) {
 					imageSelected.setImage(new Image(d.getImage()));
 				}
+			}
+    		
+		}
+		if (ejProyControllerOlim!=null) {
+    		if (ejProyControllerOlim.isEliminar()) {
+    			btnAccion.setText("Eliminar");
+    			txtTitulo.setText("Eliminar deportista");
+    			cbDeportista.setVisible(true);
+    			txtCB.setVisible(true);
+    			txtNombre.setVisible(false);
+    			txtSexo.setVisible(false);
+    			txtPeso.setVisible(false);
+    			txtAltura.setVisible(false);
+    			lbNombre.setVisible(false);
+    			lbSexo.setVisible(false);
+    			lbPeso.setVisible(false);
+    			lbAltura.setVisible(false);
+    			btnImagen.setVisible(false);
+    			imageSelected.setVisible(false);
+    			
+    			//Contenido del comboBox
+    	    	cbDeportista.setItems(FXCollections.observableArrayList(ejProyControllerOlim.cargarDeportistasNombre()));
+    	    	cbDeportista.getSelectionModel().selectFirst();
 			}
     		
 		}
