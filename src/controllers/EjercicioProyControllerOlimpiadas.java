@@ -214,7 +214,25 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 
 	@FXML
     void aniadirDeporte(ActionEvent event) {
-		
+		//Abrir ventana modal
+		FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlDeporte.fxml"));
+    	Stage stage = new Stage();
+    	EjercicioProyControllerDeporte ejLC = new EjercicioProyControllerDeporte();
+    	loader.setController(ejLC);
+    	Parent root;
+		try {
+			root = loader.load();
+	    	EjercicioProyControllerDeporte ejLC2 = loader.getController();
+	    	ejLC2.setControlerL(this);
+	        stage.setScene(new Scene(root,400,600));
+	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
+	        stage.setTitle("Añadir Deporte");
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @FXML
