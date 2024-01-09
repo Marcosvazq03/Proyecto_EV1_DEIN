@@ -176,7 +176,7 @@ public class EjercicioProyControllerDeportista implements Initializable{
 		        	Stage stage = (Stage) source.getScene().getWindow();    
 		        	stage.close();
 				}else {
-					ejProyControllerOlim.modificarDeportista(txtNombre.getText().toString(), txtSexo.getText().toString(),
+					ejProyControllerOlim.modificarDeportista(cbDeportista.getSelectionModel().getSelectedItem(), txtNombre.getText().toString(), txtSexo.getText().toString(),
 						Integer.parseInt(txtPeso.getText().toString()), Integer.parseInt(txtAltura.getText().toString()), imageBinary);
 					
 					//Ventana de informacion
