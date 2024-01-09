@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import dao.DeporteDao;
 import dao.DeportistaDao;
+import dao.EquipoDao;
 import dao.EventoDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +33,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Deporte;
 import model.Deportista;
+import model.Equipo;
 import model.Evento;
 
 public class EjercicioProyControllerOlimpiadas implements Initializable{
@@ -109,7 +111,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     
     private DeportistaDao aD;
     private DeporteDao aD2;
-    
+    private EquipoDao aD3;
     private EventoDao aE;
     
     public TableView<Deportista> gettbDeportistas() {
@@ -186,7 +188,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
      
      //DEPORTE
      public boolean crearDeporte(String nombre) {
-  		Deporte p = new Deporte(aD.ultimoIDAer(), nombre);
+  		Deporte p = new Deporte(aD2.ultimoIDAer(), nombre);
 
 		//Crear 
 		aD2.insertProducto(aD2.ultimoIDAer(), nombre);
@@ -215,6 +217,38 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
       	return aD2.cargarDeportesNombre();
       }
      
+     
+     
+     //EQUIPO
+     public boolean crearEquipo(String nombre, String iniciales) {
+    	 Equipo p = new Equipo(aD3.ultimoIDAer(), nombre, iniciales);
+
+		//Crear 
+		aD3.insertProducto(aD3.ultimoIDAer(), nombre, iniciales);
+		
+		return true;
+  		
+      }
+  	
+      public void modificarEquipo(String nombreB, String nombre, String iniciales) {
+      	//Modificar objeto
+ 		Equipo pD = aD3.cargarEquipoConNombre(nombreB);
+
+  		aD3.modProducto(pD.getId(), nombre, iniciales);
+  				
+      }
+      
+      public void eliminarEquipo(String nombre) {
+       	//Modificar objeto
+   		Equipo d = aD3.cargarEquipoConNombre(nombre);
+		
+		aD3.elimProducto(d.getId());
+   			
+       }
+     
+     public ObservableList<String> cargarEquiposNombre() {
+      	return aD3.cargarEquiposNombre();
+      }
      
     
 	@FXML
@@ -299,7 +333,25 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 
     @FXML
     void aniadirEquipo(ActionEvent event) {
-
+    	//Abrir ventana modal
+    			FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlEquipo.fxml"));
+    	    	Stage stage = new Stage();
+    	    	EjercicioProyControllerEquipo ejLC = new EjercicioProyControllerEquipo();
+    	    	loader.setController(ejLC);
+    	    	Parent root;
+    			try {
+    				root = loader.load();
+    		    	EjercicioProyControllerEquipo ejLC2 = loader.getController();
+    		    	ejLC2.setControlerL(this);
+    		        stage.setScene(new Scene(root,400,400));
+    		        stage.initOwner(this.tbDeportistas.getScene().getWindow());
+    		        stage.setTitle("Añadir Equipo");
+    		        stage.initModality(Modality.APPLICATION_MODAL);
+    		        stage.show();
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
     }
 
     @FXML
@@ -365,7 +417,25 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 
     @FXML
     void eliminarEquipo(ActionEvent event) {
-
+    	eliminar=true;
+    	try {
+			//Abrir ventana modal
+			FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlEquipo.fxml"));
+	    	Stage stage = new Stage();
+	    	EjercicioProyControllerEquipo ejLC = new EjercicioProyControllerEquipo();
+	    	loader.setController(ejLC);
+	    	ejLC = loader.getController();
+	    	ejLC.setControlerL(this);
+	    	Parent root= loader.load();
+	        stage.setScene(new Scene(root,400,300));
+	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
+	        stage.setTitle("Eliminar Equipo");
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.showAndWait();
+    	}catch (Exception e) {
+    		e.printStackTrace();
+		}
+    	eliminar=false;
     }
 
     @FXML
@@ -447,7 +517,25 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 
     @FXML
     void editarEquipo(ActionEvent event) {
-
+    	modificar=true;
+		try {
+			//Abrir ventana modal
+			FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlEquipo.fxml"));
+	    	Stage stage = new Stage();
+	    	EjercicioProyControllerEquipo ejLC = new EjercicioProyControllerEquipo();
+	    	loader.setController(ejLC);
+	    	ejLC = loader.getController();
+	    	ejLC.setControlerL(this);
+	    	Parent root= loader.load();
+	        stage.setScene(new Scene(root,500,500));
+	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
+	        stage.setTitle("Editar Equipo");
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.showAndWait();
+    	}catch (Exception e) {
+    		System.out.println(e.getMessage());
+		}
+		modificar=false;
     }
 
     @FXML
@@ -494,6 +582,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
     	
     	aD = new DeportistaDao();
     	aD2 = new DeporteDao();
+    	aD3 = new EquipoDao();
     	aE = new EventoDao();
 		
 		o1.setAll(aD.cargarDeportistas());
