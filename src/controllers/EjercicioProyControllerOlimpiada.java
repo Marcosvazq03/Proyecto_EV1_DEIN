@@ -60,7 +60,10 @@ public class EjercicioProyControllerOlimpiada implements Initializable{
     
     private OlimpiadaDao aD;
    
-	 
+	 /**
+	  * btn cancelar
+	  * @param event
+	  */
 	@FXML
     void cancelar(ActionEvent event) {
     	//Cerrar ventana modal
@@ -71,6 +74,10 @@ public class EjercicioProyControllerOlimpiada implements Initializable{
     	stage.close();
     }
 	
+	/**
+	 * aniadir producto
+	 * @param event
+	 */
 	@FXML
     void aniadir(ActionEvent event) {
     	
@@ -153,6 +160,10 @@ public class EjercicioProyControllerOlimpiada implements Initializable{
 		}
     }
 	
+	/**
+	 * Cambiar olimpiada
+	 * @param event
+	 */
 	@FXML
     void cambiarOlimpiada(ActionEvent event) {
 		//Contenido del comboBox

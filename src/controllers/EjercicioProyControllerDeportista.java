@@ -112,6 +112,10 @@ public class EjercicioProyControllerDeportista implements Initializable{
 		imageBinary = seleccionarImagen();
 	 }
 	 
+	 /**
+	  * btn Cancelar
+	  * @param event
+	  */
 	@FXML
     void cancelar(ActionEvent event) {
     	//Cerrar ventana modal
@@ -122,6 +126,11 @@ public class EjercicioProyControllerDeportista implements Initializable{
     	stage.close();
     }
 	
+	/**
+	 * Comprueba si es numero
+	 * @param txt
+	 * @return
+	 */
 	private boolean esNumero(TextField txt) {
     	boolean esNum = true;
     	try {
@@ -132,6 +141,10 @@ public class EjercicioProyControllerDeportista implements Initializable{
     	return esNum;
     }
 	
+	/**
+	 * aniadir producto
+	 * @param event
+	 */
 	@FXML
     void aniadir(ActionEvent event) {
 		//Comprobar que en un numero
@@ -221,6 +234,10 @@ public class EjercicioProyControllerDeportista implements Initializable{
 		}
     }
 	
+	/**
+	 * Cambiar deportista
+	 * @param event
+	 */
 	@FXML
     void cambiarDeportista(ActionEvent event) {
 		//Contenido del comboBox

@@ -54,7 +54,10 @@ public class EjercicioProyControllerEvento implements Initializable{
     
     private EventoDao aD;
    
-	 
+	 /**
+	  * btn Cancelar
+	  * @param event
+	  */
 	@FXML
     void cancelar(ActionEvent event) {
     	//Cerrar ventana modal
@@ -65,6 +68,10 @@ public class EjercicioProyControllerEvento implements Initializable{
     	stage.close();
     }
 	
+	/**
+	 * aniadir producto
+	 * @param event
+	 */
 	@FXML
     void aniadir(ActionEvent event) {
     	
@@ -144,6 +151,10 @@ public class EjercicioProyControllerEvento implements Initializable{
 		}
     }
 	
+	/**
+	 * Cambiar evento
+	 * @param event
+	 */
 	@FXML
     void cambiarEvento(ActionEvent event) {
 		//Contenido del comboBox

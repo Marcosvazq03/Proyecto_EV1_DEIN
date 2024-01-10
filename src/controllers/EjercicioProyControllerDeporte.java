@@ -42,7 +42,10 @@ public class EjercicioProyControllerDeporte implements Initializable{
     
     private DeporteDao aD;
    
-	 
+	 /**
+	  * btn cancelar
+	  * @param event
+	  */
 	@FXML
     void cancelar(ActionEvent event) {
     	//Cerrar ventana modal
@@ -52,7 +55,10 @@ public class EjercicioProyControllerDeporte implements Initializable{
     	Stage stage = (Stage) source.getScene().getWindow();    
     	stage.close();
     }
-	
+	/**
+	 * Aniadir producto
+	 * @param event
+	 */
 	@FXML
     void aniadir(ActionEvent event) {
     	
@@ -129,7 +135,10 @@ public class EjercicioProyControllerDeporte implements Initializable{
 			}
 		}
     }
-	
+	/**
+	 * Cambiar deporte
+	 * @param event
+	 */
 	@FXML
     void cambiarDeporte(ActionEvent event) {
 		//Contenido del comboBox

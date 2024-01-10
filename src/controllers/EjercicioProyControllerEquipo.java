@@ -48,7 +48,10 @@ public class EjercicioProyControllerEquipo implements Initializable{
     
     private EquipoDao aD;
    
-	 
+	 /**
+	  * btn Cancelar
+	  * @param event
+	  */
 	@FXML
     void cancelar(ActionEvent event) {
     	//Cerrar ventana modal
@@ -59,6 +62,10 @@ public class EjercicioProyControllerEquipo implements Initializable{
     	stage.close();
     }
 	
+	/**
+	 * aniadir producto
+	 * @param event
+	 */
 	@FXML
     void aniadir(ActionEvent event) {
     	
@@ -136,6 +143,10 @@ public class EjercicioProyControllerEquipo implements Initializable{
 		}
     }
 	
+	/**
+	 * Cambiar equipo
+	 * @param event
+	 */
 	@FXML
     void cambiarEquipo(ActionEvent event) {
 		//Contenido del comboBox

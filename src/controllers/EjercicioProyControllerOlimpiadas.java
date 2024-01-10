@@ -190,7 +190,6 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
        	return aD.cargarDeportistasNombre();
        }
      
-     
      //DEPORTE
      public boolean crearDeporte(String nombre) {
 
@@ -221,8 +220,6 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
       	return aD2.cargarDeportesNombre();
       }
      
-     
-     
      //EQUIPO
      public boolean crearEquipo(String nombre, String iniciales) {
 
@@ -252,9 +249,6 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
      public ObservableList<String> cargarEquiposNombre() {
       	return aD3.cargarEquiposNombre();
       }
-     
-     
-     
      
      //OLIMPIADA
      public boolean crearOlimpiada(String nombre, int anio, String temporada, String ciudad) {
@@ -288,46 +282,57 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 		
       }
      
-     
-     
-     
      //EVENTO
      public boolean crearEvento(String nombre, String olimpiadas, String deporte) {
 
-		//Crear 
+		//Crear y añadirla a la tabla
 		aE.insertProducto(aE.ultimoIDAer(), nombre, olimpiadas, deporte);
+		Evento p = aE.cargarEventoConNombre(nombre);
+		o2.add(p);
 		
 		return true;
-  		
+	
       }
   	
       public void modificarEvento(String nombreB, String nombre, String olimpiadas, String deporte) {
-      	//Modificar objeto
-    	Evento pD = aE.cargarEventoConNombre(nombreB);
-
-  		aE.modProducto(pD.getId(), nombre, olimpiadas, deporte);
-  				
+      	//Modificar objeto de la tabla
+    	  Evento pD = aE.cargarEventoConNombre(nombreB);
+      	for (int i = 0; i < o2.size(); i++) {
+  			if (pD.getId()==o2.get(i).getId()) {
+  				aE.modProducto(pD.getId(), nombre, olimpiadas, deporte);
+  				Evento p = aE.cargarEventoConNombre(nombre);
+  				o2.set(i, p);
+  			}
+  		}
       }
       
       public void eliminarEvento(String nombre) {
-       	//Modificar objeto
-    	Evento d = aE.cargarEventoConNombre(nombre);
-		
-		aE.elimProducto(d.getId());
-   			
+       	//Modificar objeto de la tabla
+       	for (int i = 0; i < o2.size(); i++) {
+       		Evento d = aE.cargarEventoConNombre(nombre);
+   			if (d.getId()==o2.get(i).getId()) {
+   				aE.elimProducto(d.getId());
+   				
+   				o2.remove(i);
+   			}
+   		}
        }
      
      public ObservableList<String> cargarEventosNombre() {
       	return aE.cargarEventosNombre();
       }
      
-     
-     
-     
-     
-     
-     
+     //PARTICIPACION
+     public boolean crearParticipacion(String deportista, String evento, String equipo, int edad, String medalla) {
+
+		//Crear 
+		aD5.insertProducto(deportista, evento, equipo, edad, medalla);
+		
+		return true;
+  		
+      }
     
+     
 	@FXML
     void about(ActionEvent event) {
 		if (rbDeportistas.isSelected()) {
@@ -615,25 +620,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 
     @FXML
     void eliminarParticipacion(ActionEvent event) {
-    	eliminar=true;
-    	try {
-			//Abrir ventana modal
-			FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlParticipacion.fxml"));
-	    	Stage stage = new Stage();
-	    	EjercicioProyControllerParticipacion ejLC = new EjercicioProyControllerParticipacion();
-	    	loader.setController(ejLC);
-	    	ejLC = loader.getController();
-	    	ejLC.setControlerL(this);
-	    	Parent root= loader.load();
-	        stage.setScene(new Scene(root,400,300));
-	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
-	        stage.setTitle("Eliminar Equipo");
-	        stage.initModality(Modality.APPLICATION_MODAL);
-	        stage.showAndWait();
-    	}catch (Exception e) {
-    		e.printStackTrace();
-		}
-    	eliminar=false;
+    	
     }
 
     @FXML
@@ -769,25 +756,7 @@ public class EjercicioProyControllerOlimpiadas implements Initializable{
 
     @FXML
     void editarParticipacion(ActionEvent event) {
-    	modificar=true;
-		try {
-			//Abrir ventana modal
-			FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/EjercicioProyfxmlParticipacion.fxml"));
-	    	Stage stage = new Stage();
-	    	EjercicioProyControllerParticipacion ejLC = new EjercicioProyControllerParticipacion();
-	    	loader.setController(ejLC);
-	    	ejLC = loader.getController();
-	    	ejLC.setControlerL(this);
-	    	Parent root= loader.load();
-	        stage.setScene(new Scene(root,500,600));
-	        stage.initOwner(this.tbDeportistas.getScene().getWindow());
-	        stage.setTitle("Editar Equipo");
-	        stage.initModality(Modality.APPLICATION_MODAL);
-	        stage.showAndWait();
-    	}catch (Exception e) {
-    		System.out.println(e.getMessage());
-		}
-		modificar=false;
+    	
     }
 
     @FXML
