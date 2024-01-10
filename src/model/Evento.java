@@ -12,6 +12,7 @@ public class Evento {
 	public Evento(int id, String nombre, String olimpiada, int anio, String temporada, String ciudad, String deporte) {
 		this.id=id;
 		this.nombre=nombre;
+		this.olimpiada=olimpiada;
 		this.anio=anio;
 		this.temporada=temporada;
 		this.ciudad=ciudad;
