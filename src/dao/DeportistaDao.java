@@ -15,6 +15,10 @@ import model.Deportista;
 public class DeportistaDao {
     private ConexionBD conexion;
     
+    /**
+     * Ultimo ID
+     * @return
+     */
     public int ultimoIDAer() {
     	//Saca el ultimo id
     	int id=-1;
@@ -38,6 +42,11 @@ public class DeportistaDao {
     	return id;
     }
     
+    /**
+     * Listar Participaciones
+     * @param id
+     * @return
+     */
     public String listarParticipaciones(int id) {
     	String participaciones="";
     	
@@ -86,6 +95,15 @@ public class DeportistaDao {
     	return participaciones;
     }
     
+    /**
+     * Insertar producto
+     * @param codigo
+     * @param nombre
+     * @param sexo
+     * @param altura
+     * @param peso
+     * @param imagen
+     */
     public void insertProducto(int codigo, String nombre, String sexo, int altura, int peso, InputStream imagen) {
     	//Inserta objeto en la BBDD
     	try {
@@ -110,6 +128,10 @@ public class DeportistaDao {
 	    }
     }
     
+    /**
+     * Cargar nombre
+     * @return
+     */
     public ObservableList<String> cargarDeportistasNombre()  {
     	ObservableList<String> aeropuertos = FXCollections.observableArrayList();
         try {
@@ -129,6 +151,11 @@ public class DeportistaDao {
         return aeropuertos;    
     }
     
+    /**
+     * Cargar Deportista
+     * @param nombre
+     * @return
+     */
     public Deportista cargarDeportistaConNombre(String nombre)  {
     	Deportista d = null;
         try {
@@ -153,6 +180,15 @@ public class DeportistaDao {
         return d;    
     }
 
+    /**
+     * Modificar producto
+     * @param codigo
+     * @param nombre
+     * @param sexo
+     * @param peso
+     * @param altura
+     * @param imagen
+     */
 	public void modProducto(int codigo, String nombre, String sexo, int peso, int altura, InputStream imagen) {
     	//Modifica objeto en la BBDD
     	try {
@@ -172,6 +208,10 @@ public class DeportistaDao {
 	    }
     }
 	
+	/**
+	 * Eliminar producto
+	 * @param codigo
+	 */
 	public void elimProducto(int codigo) {
     	//Eliminar objeto en la BBDD
     	try {
@@ -185,6 +225,11 @@ public class DeportistaDao {
 	    }
     }
 
+	/**
+	 * Cargar imagen
+	 * @param codigo
+	 * @return
+	 */
 	public InputStream cargarImg(int codigo)  {
 		InputStream image = null;
 		try {
