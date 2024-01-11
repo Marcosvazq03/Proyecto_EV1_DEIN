@@ -8,10 +8,10 @@ import java.sql.SQLException;
 import conexion.ConexionBD;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Olimpiada;
+import model.Deporte;
 
 
-public class OlimpiadaDao {
+public class DeporteDao {
     private ConexionBD conexion;
     
     /**
@@ -23,11 +23,11 @@ public class OlimpiadaDao {
     	int id=-1;
     	try {
             conexion = new ConexionBD();        	
-        	String consulta = "select id_olimpiada from Olimpiada";
+        	String consulta = "select id_deporte from Deporte";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
         	ResultSet rs = pstmt.executeQuery();   
 			 while (rs.next()) {
-		            int idA = rs.getInt("id_olimpiada");
+		            int idA = rs.getInt("id_deporte");
 		            if (idA>id) {
 						id=idA;
 					}
@@ -45,24 +45,18 @@ public class OlimpiadaDao {
      * Insertar producto
      * @param codigo
      * @param nombre
-     * @param anio
-     * @param temporada
-     * @param ciudad
      */
-    public void insertProducto(int codigo, String nombre, int anio, String temporada, String ciudad) {
+    public void insertProducto(int codigo, String nombre) {
     	//Inserta objeto en la BBDD
     	try {
             conexion = new ConexionBD();        	
             
-			String consulta = "INSERT INTO Olimpiada(id_olimpiada, nombre, anio, temporada, ciudad) VALUES(?,?,?,?,?)";
+			String consulta = "INSERT INTO Deporte(id_deporte, nombre) VALUES(?,?)";
 			
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);  
         	
         	pstmt.setInt(1, codigo);
         	pstmt.setString(2, nombre);
-        	pstmt.setInt(3, anio);
-        	pstmt.setString(4, temporada);
-        	pstmt.setString(5, ciudad);
         	
 			pstmt.execute();
 			
@@ -73,14 +67,14 @@ public class OlimpiadaDao {
     }
     
     /**
-     * Cargar nombre
+     * Cargar nombres
      * @return
      */
-    public ObservableList<String> cargarOlimpiadasNombre()  {
+    public ObservableList<String> cargarDeportesNombre()  {
     	ObservableList<String> aeropuertos = FXCollections.observableArrayList();
         try {
         	conexion = new ConexionBD();        	
-        	String consulta = "select * from Olimpiada";
+        	String consulta = "select * from Deporte";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
         	ResultSet rs = pstmt.executeQuery();   
 			 while (rs.next()) {
@@ -96,24 +90,21 @@ public class OlimpiadaDao {
     }
     
     /**
-     * Cargar Olimpiada
+     * Cargar Deporte
      * @param nombre
      * @return
      */
-    public Olimpiada cargarOlimpiadaConNombre(String nombre)  {
-    	Olimpiada d = null;
+    public Deporte cargarDeporteConNombre(String nombre)  {
+    	Deporte d = null;
         try {
         	conexion = new ConexionBD();        	
-        	String consulta = "select * from Olimpiada where nombre ='"+nombre+"'";
+        	String consulta = "select * from Deporte where nombre ='"+nombre+"'";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
         	ResultSet rs = pstmt.executeQuery();   
 			 while (rs.next()) {
-				 int id = rs.getInt("id_olimpiada");
-				 int anio = rs.getInt("anio");
-				 String temporada = rs.getString("temporada");
-				 String ciudad = rs.getString("ciudad");
+				 int id = rs.getInt("id_deporte");
 				 
-				 d = new Olimpiada(id, nombre, anio, temporada, ciudad);
+				 d = new Deporte(id, nombre);
 			 }
 			 rs.close();       
 	         conexion.CloseConexion();
@@ -124,24 +115,18 @@ public class OlimpiadaDao {
     }
 
     /**
-     * modificar producto
+     * Modificar producto
      * @param codigo
      * @param nombre
-     * @param anio
-     * @param temporada
-     * @param ciudad
      */
-	public void modProducto(int codigo, String nombre, int anio, String temporada, String ciudad) {
+	public void modProducto(int codigo, String nombre) {
     	//Modifica objeto en la BBDD
     	try {
 	        conexion = new ConexionBD();        	
-        	String consulta = "UPDATE olimpiadas.Olimpiada SET nombre = ?, anio = ?, temporada = ?, ciudad = ? WHERE id_olimpiada = ?";
+        	String consulta = "UPDATE olimpiadas.Deporte SET nombre = ? WHERE id_deporte = ?";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);  
         	pstmt.setString(1, nombre);
-        	pstmt.setInt(2, anio);
-        	pstmt.setString(3, temporada);
-        	pstmt.setString(4, ciudad);
-        	pstmt.setInt(5, codigo);
+        	pstmt.setInt(2, codigo);
 			pstmt.execute();
 	        conexion.CloseConexion();
 	    } catch (SQLException e) {	    	
@@ -157,7 +142,7 @@ public class OlimpiadaDao {
     	//Eliminar objeto en la BBDD
     	try {
             conexion = new ConexionBD();        	
-            String consulta = "DELETE FROM olimpiadas.Olimpiada WHERE id_olimpiada = "+codigo;
+            String consulta = "DELETE FROM olimpiadas.Deporte WHERE id_deporte = "+codigo;
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);  
 			pstmt.execute();
 	        conexion.CloseConexion();
@@ -170,22 +155,19 @@ public class OlimpiadaDao {
 	 * Cargar Productos
 	 * @return
 	 */
-	public ObservableList<Olimpiada> cargarOlimpiadas()  {
+	public ObservableList<Deporte> cargarDeportes()  {
     	
-    	ObservableList<Olimpiada> producto = FXCollections.observableArrayList();
+    	ObservableList<Deporte> producto = FXCollections.observableArrayList();
         try {
             conexion = new ConexionBD();        	
-        	String consulta = "select * from Olimpiada";
+        	String consulta = "select * from Deporte";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
         	ResultSet rs = pstmt.executeQuery();   
 			 while (rs.next()) {
-				 int id = rs.getInt("id_olimpiada");
+				 int id = rs.getInt("id_deporte");
 	             String nombre = rs.getString("nombre");
-	             int anio = rs.getInt("anio");
-	             String temporada = rs.getString("temporada");
-	             String ciudad = rs.getString("ciudad");
 	         
-                 Olimpiada a = new Olimpiada(id, nombre, anio, temporada, ciudad);
+                 Deporte a = new Deporte(id, nombre);
                  producto.add(a);
 			 }             
 			rs.close();       

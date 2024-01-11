@@ -8,10 +8,10 @@ import java.sql.SQLException;
 import conexion.ConexionBD;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Olimpiada;
+import model.Equipo;
 
 
-public class OlimpiadaDao {
+public class EquipoDao {
     private ConexionBD conexion;
     
     /**
@@ -23,11 +23,11 @@ public class OlimpiadaDao {
     	int id=-1;
     	try {
             conexion = new ConexionBD();        	
-        	String consulta = "select id_olimpiada from Olimpiada";
+        	String consulta = "select id_equipo from Equipo";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
         	ResultSet rs = pstmt.executeQuery();   
 			 while (rs.next()) {
-		            int idA = rs.getInt("id_olimpiada");
+		            int idA = rs.getInt("id_equipo");
 		            if (idA>id) {
 						id=idA;
 					}
@@ -45,24 +45,20 @@ public class OlimpiadaDao {
      * Insertar producto
      * @param codigo
      * @param nombre
-     * @param anio
-     * @param temporada
-     * @param ciudad
+     * @param iniciales
      */
-    public void insertProducto(int codigo, String nombre, int anio, String temporada, String ciudad) {
+    public void insertProducto(int codigo, String nombre, String iniciales) {
     	//Inserta objeto en la BBDD
     	try {
             conexion = new ConexionBD();        	
             
-			String consulta = "INSERT INTO Olimpiada(id_olimpiada, nombre, anio, temporada, ciudad) VALUES(?,?,?,?,?)";
+			String consulta = "INSERT INTO Equipo(id_equipo, nombre, iniciales) VALUES(?,?,?)";
 			
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);  
         	
         	pstmt.setInt(1, codigo);
         	pstmt.setString(2, nombre);
-        	pstmt.setInt(3, anio);
-        	pstmt.setString(4, temporada);
-        	pstmt.setString(5, ciudad);
+        	pstmt.setString(3, iniciales);
         	
 			pstmt.execute();
 			
@@ -76,11 +72,11 @@ public class OlimpiadaDao {
      * Cargar nombre
      * @return
      */
-    public ObservableList<String> cargarOlimpiadasNombre()  {
+    public ObservableList<String> cargarEquiposNombre()  {
     	ObservableList<String> aeropuertos = FXCollections.observableArrayList();
         try {
         	conexion = new ConexionBD();        	
-        	String consulta = "select * from Olimpiada";
+        	String consulta = "select * from Equipo";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
         	ResultSet rs = pstmt.executeQuery();   
 			 while (rs.next()) {
@@ -96,24 +92,22 @@ public class OlimpiadaDao {
     }
     
     /**
-     * Cargar Olimpiada
+     * Cargar Equipo
      * @param nombre
      * @return
      */
-    public Olimpiada cargarOlimpiadaConNombre(String nombre)  {
-    	Olimpiada d = null;
+    public Equipo cargarEquipoConNombre(String nombre)  {
+    	Equipo d = null;
         try {
         	conexion = new ConexionBD();        	
-        	String consulta = "select * from Olimpiada where nombre ='"+nombre+"'";
+        	String consulta = "select * from Equipo where nombre ='"+nombre+"'";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
         	ResultSet rs = pstmt.executeQuery();   
 			 while (rs.next()) {
-				 int id = rs.getInt("id_olimpiada");
-				 int anio = rs.getInt("anio");
-				 String temporada = rs.getString("temporada");
-				 String ciudad = rs.getString("ciudad");
+				 int id = rs.getInt("id_equipo");
+				 String iniciales = rs.getString("iniciales");
 				 
-				 d = new Olimpiada(id, nombre, anio, temporada, ciudad);
+				 d = new Equipo(id, nombre, iniciales);
 			 }
 			 rs.close();       
 	         conexion.CloseConexion();
@@ -124,24 +118,20 @@ public class OlimpiadaDao {
     }
 
     /**
-     * modificar producto
+     * Modificar Producto
      * @param codigo
      * @param nombre
-     * @param anio
-     * @param temporada
-     * @param ciudad
+     * @param iniciales
      */
-	public void modProducto(int codigo, String nombre, int anio, String temporada, String ciudad) {
+	public void modProducto(int codigo, String nombre, String iniciales) {
     	//Modifica objeto en la BBDD
     	try {
 	        conexion = new ConexionBD();        	
-        	String consulta = "UPDATE olimpiadas.Olimpiada SET nombre = ?, anio = ?, temporada = ?, ciudad = ? WHERE id_olimpiada = ?";
+        	String consulta = "UPDATE olimpiadas.Equipo SET nombre = ?, iniciales = ? WHERE id_equipo = ?";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);  
         	pstmt.setString(1, nombre);
-        	pstmt.setInt(2, anio);
-        	pstmt.setString(3, temporada);
-        	pstmt.setString(4, ciudad);
-        	pstmt.setInt(5, codigo);
+        	pstmt.setString(2, iniciales);
+        	pstmt.setInt(3, codigo);
 			pstmt.execute();
 	        conexion.CloseConexion();
 	    } catch (SQLException e) {	    	
@@ -150,14 +140,14 @@ public class OlimpiadaDao {
     }
 	
 	/**
-	 * Eliminar producto
+	 * Eliminar Producto
 	 * @param codigo
 	 */
 	public void elimProducto(int codigo) {
     	//Eliminar objeto en la BBDD
     	try {
             conexion = new ConexionBD();        	
-            String consulta = "DELETE FROM olimpiadas.Olimpiada WHERE id_olimpiada = "+codigo;
+            String consulta = "DELETE FROM olimpiadas.Equipo WHERE id_equipo = "+codigo;
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);  
 			pstmt.execute();
 	        conexion.CloseConexion();
@@ -170,22 +160,20 @@ public class OlimpiadaDao {
 	 * Cargar Productos
 	 * @return
 	 */
-	public ObservableList<Olimpiada> cargarOlimpiadas()  {
+	public ObservableList<Equipo> cargarEquipos()  {
     	
-    	ObservableList<Olimpiada> producto = FXCollections.observableArrayList();
+    	ObservableList<Equipo> producto = FXCollections.observableArrayList();
         try {
             conexion = new ConexionBD();        	
-        	String consulta = "select * from Olimpiada";
+        	String consulta = "select * from Equipo";
         	PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);      
         	ResultSet rs = pstmt.executeQuery();   
 			 while (rs.next()) {
-				 int id = rs.getInt("id_olimpiada");
+				 int id = rs.getInt("id_equipo");
 	             String nombre = rs.getString("nombre");
-	             int anio = rs.getInt("anio");
-	             String temporada = rs.getString("temporada");
-	             String ciudad = rs.getString("ciudad");
+	             String iniciales = rs.getString("iniciales");
 	         
-                 Olimpiada a = new Olimpiada(id, nombre, anio, temporada, ciudad);
+                 Equipo a = new Equipo(id, nombre, iniciales);
                  producto.add(a);
 			 }             
 			rs.close();       
